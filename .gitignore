@@ -31,5 +31,8 @@
 *.out
 *.app
 
+# vcpkg
+vcpkg_installed/**
+
 # CMake
 build/**
