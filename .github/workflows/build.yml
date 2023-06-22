@@ -1,4 +1,4 @@
-name: Directly build
+name: Example that directly invokes `vcpkg install`
 
 on:
   workflow_dispatch:
@@ -7,12 +7,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # These steps assume an appropriate version of vcpkg is listed as a
+    # submodule in your git repo. If it is not, you must update this workflow
+    # to obtain it.
+
     steps:
       - uses: actions/checkout@v3
         with:
+          submodules: 'recursive'  
+ 
+      - name: Bootstrap vcpkg
+        run: ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh
+
+      - name: Directly invoke `vcpkg install`
+        run: ${{ github.workspace }}/vcpkg/vcpkg install
 
       - name: Build with G++
-        run: g++ -o hola main.cpp
+        run: g++ -I${{ github.workspace }}/vcpkg_installed/x64-linux/include -o hola main.cpp
 
       - name: Hola, amigos
         run: ${{ github.workspace }}/hola
