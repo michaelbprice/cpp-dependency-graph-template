@@ -1,0 +1,18 @@
+name: Directly build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+
+      - name: Build with G++
+        run: g++ -o hola main.cpp
+
+      - name: Hola, amigos
+        run: ${{ github.workspace }}/hola
