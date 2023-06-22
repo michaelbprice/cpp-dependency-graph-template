@@ -1,6 +1,10 @@
-#include <iostream>
+#define FMT_HEADER_ONLY
+#include "fmt/color.h"
 
 int main(int argc, char** argv)
 {
-    std::cout << "¡Hola, Mundo!\n";
+    fmt::print(
+        fg(fmt::color::light_salmon),
+        "¡Hola, Mundo!\n"
+    );
 }
