@@ -1,4 +1,4 @@
-name: Build with CMake
+name: Example that uses CMake integration
 
 on:
   workflow_dispatch:
@@ -7,11 +7,22 @@ jobs:
   cmake:
     runs-on: ubuntu-latest
 
+    # These steps assume an appropriate version of vcpkg is listed as a
+    # submodule in your git repo. If it is not, you must update this workflow
+    # to obtain it.
+
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'  
  
+      - name: Bootstrap vcpkg
+        run: ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh
+
       - name: Configure with CMake
-        run: cmake -B build -S ${{ github.workspace }}
+        run: |
+          cmake -B build -S ${{ github.workspace }} \
+          -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
       - name: Build with CMake
         run: cmake --build build
