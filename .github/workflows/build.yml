@@ -3,6 +3,21 @@ name: Example that directly invokes `vcpkg install`
 on:
   workflow_dispatch:
 
+###############################################################################
+# Add this section to your workflow file does not already have it to enable
+# the job to write the dependency metadata.
+###############################################################################
+permissions:
+  contents: write
+
+###############################################################################
+# Add these environment variables to your workflow to enable the vcpkg
+# dependency graph integration.
+###############################################################################
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  VCPKG_FEATURE_FLAGS: dependencygraph
+
 jobs:
   build:
     runs-on: ubuntu-latest

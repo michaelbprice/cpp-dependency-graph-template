@@ -3,6 +3,21 @@ name: Example that uses CMake integration
 on:
   workflow_dispatch:
 
+###############################################################################
+# Add this section to your workflow file does not already have it to enable
+# the job to write the dependency metadata.
+###############################################################################
+permissions:
+  contents: write
+
+###############################################################################
+# Add these environment variables to your workflow to enable the vcpkg
+# dependency graph integration.
+###############################################################################
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  VCPKG_FEATURE_FLAGS: dependencygraph
+
 jobs:
   cmake:
     runs-on: ubuntu-latest
@@ -15,7 +30,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: 'recursive'  
- 
+
       - name: Bootstrap vcpkg
         run: ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh
 
